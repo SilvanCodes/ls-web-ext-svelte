@@ -1,0 +1,31 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "rollup": "^1.10.1",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^4.0.4",
+    "sirv-cli": "^0.4.0",
+    "svelte": "^3.0.0",
+    "web-ext": "^3.0.0"
+  },
+  "scripts": {
+    "build:background": "rollup -c rollup.background.config.js",
+    "build:app": "rollup -c rollup.app.config.js",
+    "build": "npm run build:background && npm run build:app",
+    "autobuild": "rollup -c -w",
+    "dev": "run-p start:dev autobuild",
+    "start:dev": "sirv public --dev",
+    "start": "web-ext --config=web-ext.config.js run"
+  },
+  "dependencies": {
+    "firebase": "^6.0.2",
+    "rxfire": "^3.4.6",
+    "rxjs": "^6.5.2"
+  }
+}

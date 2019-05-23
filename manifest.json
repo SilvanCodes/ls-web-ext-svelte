@@ -1,0 +1,21 @@
+{
+	"manifest_version": 2,
+	"name": "ls-webext",
+	"version": "0.1.0",
+
+	"description": "WebExtention to receive shared links.",
+
+	"icons": {
+		"32": "public/icons/link-share-32.png",
+		"48": "public/icons/link-share-48.png"
+	},
+	
+	"browser_action": {
+		"default_title": "LinkShare",
+		"default_popup": "public/index.html"
+	},
+
+	"background": {
+		"scripts": ["public/dist/background.js"]
+	  }
+}
