@@ -1,10 +1,10 @@
 <script>
     export let email;
 
-    export function logout() {
-		console.log('fire logout')
+    export function signout() {
+		console.log('fire signout')
 		browser.runtime.sendMessage({
-			action: 'logout'
+			action: 'signout'
 		});
 	}
 </script>
@@ -14,5 +14,5 @@
 
     <p>Hello {email}!</p>
 
-    <button on:click={logout}>Logout</button>
+    <button on:click={signout}>SIGN OUT</button>
 </main>

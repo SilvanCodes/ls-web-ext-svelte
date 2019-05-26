@@ -28,7 +28,8 @@ function setupQuery(user) {
 				const website = change.doc.data();
 				console.log("New link: ", website);
 				browser.tabs.create({ url: website.url, active: true });
-				batch.update(change.doc.ref, { "fresh": false });
+				// batch.update(change.doc.ref, { "fresh": false });
+				batch.delete(change.doc.ref);
 			}
 		});
 		// execute updates at once
@@ -39,19 +40,25 @@ function setupQuery(user) {
 // USER STATE MESSENGER
 firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
-		browser.runtime.sendMessage({
-			action: 'user',
-			user: { email: user.email }
-		});
+		sendUser({ email: user.email });
 		setupQuery(user);
 	} else {
-		browser.runtime.sendMessage({
-			action: 'user',
-			user: null
-		});
+		sendUser(null);
 		tearDown();
 	}
 });
+
+function sendMessage(message) {
+	browser.runtime.sendMessage(message);
+}
+
+function sendError(error) {
+	sendMessage({ action: 'error', error })
+}
+
+function sendUser(user) {
+	sendMessage({ action: 'user', user })
+}
 
 // CLEAN EXIT
 function tearDown() {
@@ -67,17 +74,17 @@ browser.runtime.onMessage.addListener((message) => {
 		return new Promise(resolve => {
 			  resolve({ email });
 		  });
-	case 'login':
+	case 'signin':
 		console.log('doing login...')
-		auth.signInWithEmailAndPassword(message.email, message.password);
+		auth.signInWithEmailAndPassword(message.email, message.password).catch(sendError);
 		break;
-	case 'logout':
+	case 'signout':
 		console.log('doing logout...')
 		tearDown();
 		auth.signOut();
 		break;
 	case 'signup':
-		auth.createUserWithEmailAndPassword(message.email, message.password);
+		auth.createUserWithEmailAndPassword(message.email, message.password).catch(sendError);
 		break;
 	default:
 		console.warn('Action not implemented in background!')

@@ -1,12 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
 	// custom components
-	import Register from './Register.svelte';
 	import Login from './Login.svelte';
 	import Workspace from './Workspace.svelte';
 	
 	let user;
-	let page = 'register';
+	let errors = [];
 
 	onMount(() => {
 		browser.runtime.sendMessage({
@@ -23,24 +22,24 @@
 		case 'user':
 			user = message.user;
 			break;
+		case 'error':
+			console.log(message.error)
+			errors = [ /* ...errors,  */message.error.message ];
+			break;
 		default:
 			console.warn('Action not implemented in app!')
 		}
 	});
-
-	// NAVIGATION HANDLER
-	function handleNavigation(event) {
-		page = event.detail;
-	}
 
 </script>
 
 <main>
 	{#if user}
 		<Workspace {...user} />
-	{:else if page === 'login'}
-		<Login on:navigate={handleNavigation}/>
-	{:else if page === 'register'}
-		<Register on:navigate={handleNavigation}/>
+	{:else}
+		<Login/>
 	{/if}
+	<!-- {#each errors as error}
+		<p>{error}</p>
+	{/each} -->
 </main>

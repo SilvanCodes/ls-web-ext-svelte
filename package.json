@@ -24,8 +24,6 @@
     "start": "web-ext --config=web-ext.config.js run"
   },
   "dependencies": {
-    "firebase": "^6.0.2",
-    "rxfire": "^3.4.6",
-    "rxjs": "^6.5.2"
+    "firebase": "^6.0.2"
   }
 }
