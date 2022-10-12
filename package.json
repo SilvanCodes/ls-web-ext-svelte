@@ -12,7 +12,7 @@
     "rollup-plugin-terser": "^4.0.4",
     "sirv-cli": "^0.4.0",
     "svelte": "^3.0.0",
-    "web-ext": "^3.0.0"
+    "web-ext": "^3.2.1"
   },
   "scripts": {
     "build:background": "rollup -c rollup.background.config.js",
